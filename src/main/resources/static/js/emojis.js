@@ -17,7 +17,7 @@ picker.addEventListener('emoji:select', selection => {
     insertAtCursor(textArea, selection.emoji);
 });
 
-function insertAtCursor(myField, myValue) {
+export function insertAtCursor(myField, myValue) {
     if (myField.selectionStart || myField.selectionStart === 0) {
         var startPos = myField.selectionStart;
         var endPos = myField.selectionEnd;

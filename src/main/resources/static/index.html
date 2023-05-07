@@ -56,13 +56,17 @@
         </div>
     </div>
 </div>
-<dialog id="favDialog" title="Pick a file">
+<dialog id="favDialog">
     <form>
-        <h2>Pick an image to upload</h2>
-        <input type='file' accept="image/jpeg,image/png" id="fileInput"/>
-        <img id="preview" src="http://placehold.it/180" alt="your image" style="max-width:180px;"/>
-        <button value="cancel" formmethod="dialog">Cancel</button>
-        <button id="confirmBtn" value="default" disabled="disabled" >Submit</button>
+        <div>
+            <h2>Pick an image to upload</h2>
+            <input type='file' accept="image/jpeg,image/png" id="fileInput"/>
+            <img id="preview" src="img/placeholder.png" alt="your image" style="max-width:180px;"/>
+        </div>
+        <div>
+            <button value="cancel" formmethod="dialog">Cancel</button>
+            <button id="confirmBtn" value="default" disabled="disabled">Submit</button>
+        </div>
     </form>
 </dialog>
 <section style="background-color: #CDC4F9;">
@@ -279,7 +283,7 @@
                                     <!--                             placeholder="Type message">-->
                                     <a id="showDialog" class="ms-1 text-muted" href="#!"><i
                                             class="fas fa-paperclip"></i></a>
-<!--                                    <a class="ms-3 text-muted" href="#!"><i class="fas fa-smile"></i></a>-->
+                                    <!--                                    <a class="ms-3 text-muted" href="#!"><i class="fas fa-smile"></i></a>-->
                                     <a class="ms-3 text-muted" id="emoji-button" href="#!"><i class="fas fa-smile"></i></a>
                                     <a class="ms-3" id="send_message" href="#!"><i class="fas fa-paper-plane"></i></a>
                                 </div>

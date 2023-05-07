@@ -1,51 +1,60 @@
 const authUrl = "https://fungover.org/auth";
+let loggedIn = false;
 
-    window.onload = function () {
-        let token = localStorage.getItem('Token');
+window.onload = function () {
+    let token = localStorage.getItem('Token');
 
-        if (token !== null && !isTokenExpired(token)) {
-            console.log("Valid token found");
-        } else {
-            console.log("Expired or no token");
-            localStorage.removeItem('Token');
-        }
+    if (token === null) {
+        console.log("No token found");
+        //Todo: Show login dialog
+        loggedIn = false;
+
+    } else if (!isTokenExpired(token)) {
+        console.log("Valid token found");
+        loggedIn = true;
+
+    } else {
+        console.log("Expired token");
+        localStorage.removeItem('Token');
+        loggedIn = false;
     }
+}
 
 
-    // const logIn = async e => {
-    //     e.preventDefault();
-    //
-    //     let bodyData = {username, password};
-    //     let data = {};
-    //
-    //     fetch(`https://h-178-174-162-51.a536.priv.bahnhof.se/auth/`,
-    //         {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             body: JSON.stringify(bodyData)
-    //         })
-    //         .then((response) => {
-    //             if (response.status !== 200) {
-    //                 throw new Error(response.status)
-    //             }
-    //             return response;
-    //         })
-    //         .then(res => res.json())
-    //         .then((result) => {
-    //             data = result;
-    //             /** @namespace data.access_token **/
-    //             console.log(data.access_token);
-    //             localStorage.setItem('Token', data.access_token);
-    //             history.push("/home");
-    //         })
-    //         .catch(function (err) {
-    //             const invalidElement = document.getElementById("invalid_credentials");
-    //             invalidElement.hidden = false;
-    //             console.log(err);
-    //         });
-    // };
+// const logIn = async e => {
+//     e.preventDefault();
+//
+//     let bodyData = {username, password};
+//     let data = {};
+//
+//     fetch('http://localhost/auth/',
+//         {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             },
+//             body: JSON.stringify(bodyData)
+//         })
+//         .then((response) => {
+//             if (response.status !== 200) {
+//                 throw new Error(response.status)
+//             }
+//             return response;
+//         })
+//         .then(res => res.json())
+//         .then((result) => {
+//             data = result;
+//             /** @namespace data.access_token **/
+//             console.log(data.access_token);
+//             localStorage.setItem('Token', data.access_token);
+//             history.push("/home");
+//         })
+//         .catch(function (err) {
+//             const invalidElement = document.getElementById("invalid_credentials");
+//             invalidElement.hidden = false;
+//             console.log(err);
+//         });
+// };
 
 //     return (
 //         <div>
@@ -96,6 +105,6 @@ function isTokenExpired(token) {
     return Date.now() >= (JSON.parse(atob(token.split('.')[1]))).exp * 1000;
 }
 
-function subjectFromToken(token){
+function subjectFromToken(token) {
     return JSON.parse(atob(token.split('.')[1])).sub;
 }

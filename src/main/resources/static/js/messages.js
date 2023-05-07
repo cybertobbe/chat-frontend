@@ -92,8 +92,9 @@ function addPosts(posts) {
             myMessage.appendChild(myMessageDiv);
             let myMessageP = document.createElement('p');
             myMessageP.className = "small p-2 ms-3 mb-1 rounded-3";
-            myMessageP.style = "background-color: #f5f6f7;white-space: pre;"
-            myMessageP.textContent = post.message;
+            myMessageP.style = "background-color: #f5f6f7;";
+            // myMessageP.textContent = post.message;
+            myMessageP.innerHTML = convert(post.message);
             myMessageDiv.appendChild(myMessageP);
             let myMessageTime = document.createElement('p');
             myMessageTime.className = "small ms-3 mb-3 rounded-3 text-muted float-end";
@@ -108,8 +109,9 @@ function addPosts(posts) {
             myMessage.appendChild(myMessageDiv);
             let myMessageP = document.createElement('p');
             myMessageP.className = "small p-2 me-3 mb-1 text-white rounded-3 bg-primary";
-            myMessageP.style = "background-color: #f5f6f7;white-space: pre;"
-            myMessageP.textContent = post.message;
+            myMessageP.style = "background-color: #f5f6f7;";
+            //myMessageP.textContent = post.message;
+            myMessageP.innerHTML = convert(post.message);
             myMessageDiv.appendChild(myMessageP);
             let myMessageTime = document.createElement('p');
             myMessageTime.className = "small me-3 mb-3 rounded-3 text-muted";
@@ -181,4 +183,56 @@ function time_ago(time) {
                 return Math.floor(seconds / format[2]) + ' ' + format[1] + ' ' + token;
         }
     return time;
+}
+
+function linkify(text) {
+    var urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+    return text.replace(urlRegex, function (url) {
+        if (isImage(url))
+            return '<a target="_blank" rel="noopener noreferrer" href="' + url + '"><img src="' + url + '" style="max-width:180px;"></a>';
+        return '<a target="_blank" rel="noopener noreferrer" href="' + url + '">' + url + '</a>';
+    });
+}
+
+function convert(text) {
+    text = htmlEscape(text);  //Replace characters that makes html tags to prevent injection of formatting.
+    text = text.replace(/\n/g, "<br>");  //Replace linebreak with <br> tag.
+    var exp2 =/(^|[^\/])(www\.[\S]+(\b|$))/gim;
+    text =  text.replace(exp2, '$1http://$2');  //Make text starting with www into a http link?
+    return linkify(text);
+}
+
+function htmlEscape(str) {
+    return str
+        .replace(/&/g, '&amp')
+        .replace(/'/g, '&#39')
+        .replace(/"/g, '&quot')
+        .replace(/>/g, '&gt')
+        .replace(/</g, '&lt')
+    // .replace(/\//g, '/');  //To escape forward-slash / for anti-XSS safety purposes use the following:
+}
+
+// The opposite function:
+function htmlUnescape(str) {
+    return str
+        .replace(/&amp/g, '&')
+        .replace(/&apos/g, "'")
+        .replace(/&quot/g, '"')
+        .replace(/&gt/g, '>')
+        .replace(/&lt/g, '<');
+}
+
+//https://www.zhenghao.io/posts/verify-image-url
+function isImage(url) {
+    return /^https?:\/\/.+\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
+}
+
+function isImgUrl(url) {
+    return fetch(url, {method: 'HEAD',cache: "force-cache"})
+        .then(res => {
+            return res.headers.get('Content-Type').startsWith('image');
+        })
+        .catch(reason => {
+            return false;
+        });
 }
