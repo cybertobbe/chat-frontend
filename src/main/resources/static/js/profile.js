@@ -1,4 +1,5 @@
 const URL = "http://localhost:8080/users"
+import {userID} from "./auth";
 
 const usernameinput = document.getElementById('userprofilename');
 const userimageinput = document.getElementById('userprofileimage');

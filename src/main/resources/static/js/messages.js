@@ -1,7 +1,8 @@
 import {getUserDetails} from "./users.js";
+import {userID} from "./auth";
 
 const URL = 'http://localhost:8000'
-const userID = '123';
+//const userID = '123';
 let chatID = '321';
 
 const textArea = document.getElementById('textArea_message');

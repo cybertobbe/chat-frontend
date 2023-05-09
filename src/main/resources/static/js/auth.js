@@ -1,5 +1,6 @@
 const authUrl = "https://fungover.org/auth";
 let loggedIn = false;
+export let userID = '123';
 
 window.onload = function () {
     let token = localStorage.getItem('Token');
