@@ -251,17 +251,18 @@
                                     <div class="d-flex flex-row justify-content-start">
                                         <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp"
                                              alt="avatar 1" style="width: 45px; height: 100%;">
-                                        <div onclick="document">
+                                        <div messageid="">
+                                            <input type="hidden" value="1">
                                             <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">
                                                 Lorem ipsum
                                                 dolor
                                                 sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                                                 ut labore et
                                                 dolore
-                                                magna aliqua.</p>
-                                            <span id="badge" class="badge rounded-pill bg-info">👍<span
-                                                    class="visually-hidden">liked</span></span>
-                                            <p class="small ms-3 mb-3 rounded-3 text-muted float-end">12:00 PM | Aug
+                                                magna aliqua.
+                                            </p>
+                                            <p class="small ms-3 mb-3 rounded-3 text-muted float-end"><span>👍</span>12:00
+                                                PM | Aug
                                                 13 </p>
 
                                         </div>
@@ -269,14 +270,15 @@
 
                                     <div class="d-flex flex-row justify-content-end">
                                         <div>
+                                            <input type="hidden" value="2">
                                             <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">Ut enim ad
                                                 minim veniam,
                                                 quis
                                                 nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                                consequat.</p>
-                                            <p class="small me-3 mb-3 rounded-3 text-muted">12:00 PM | Aug 13</p>
-                                            <span class="badge rounded-pill bg-info">👍<span
-                                                    class="visually-hidden">liked</span></span>
+                                                consequat.
+                                            </p>
+                                            <p class="small me-3 mb-3 rounded-3 text-muted"><span
+                                                    style="visibility: hidden;">👍</span>12:00 PM | Aug 13</p>
                                         </div>
                                         <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
                                              alt="avatar 1" style="width: 45px; height: 100%;">
@@ -320,5 +322,6 @@
 <script type="module" src="js/fileupload.js"></script>
 <script type="module" src="js/emojis.js"></script>
 <script type="module" src="js/profile.js"></script>
+<script type="module" src="js/like.js"></script>
 </body>
 </html>

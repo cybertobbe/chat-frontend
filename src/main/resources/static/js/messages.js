@@ -1,6 +1,7 @@
 import {getUserDetails} from "./users.js";
 import {userID} from "./auth.js";
 import {messagesURL} from "./url.js";
+import {checkIfLiked, toogleLike} from "./like.js";
 
 let chatID = '321';
 
@@ -82,8 +83,11 @@ function addPosts(posts) {
             myMessageImage.src = getUserDetails(userID).avatar;
             myMessageImage.style = "width: 45px; height: 100%;";
             myMessage.appendChild(myMessageImage);
+
             let myMessageDiv = document.createElement('div');
             myMessage.appendChild(myMessageDiv);
+            myMessage.onclick = () => toogleLike(post._id.$oid);
+
             let myMessageP = document.createElement('p');
             myMessageP.className = "small p-2 ms-3 mb-1 rounded-3";
             myMessageP.style = "background-color: #f5f6f7;";
@@ -93,6 +97,13 @@ function addPosts(posts) {
             let myMessageTime = document.createElement('p');
             myMessageTime.className = "small ms-3 mb-3 rounded-3 text-muted float-end";
             myMessageTime.textContent = time_ago(new Date(post.date));
+
+            let like = document.createElement('span');
+            like.setAttribute('style','visibility: hidden;' );
+            like.textContent = '👍';
+            checkIfLiked(like, post._id.$oid);
+
+            myMessageDiv.appendChild(like);
             myMessageDiv.appendChild(myMessageTime);
             htmlPosts.push(myMessage);
         } else {  //Other part posted this
@@ -100,16 +111,25 @@ function addPosts(posts) {
             myMessage.className = "d-flex flex-row justify-content-end";
 
             let myMessageDiv = document.createElement('div');
+            myMessage.onclick = () => toogleLike(post._id.$oid);
+
             myMessage.appendChild(myMessageDiv);
             let myMessageP = document.createElement('p');
             myMessageP.className = "small p-2 me-3 mb-1 text-white rounded-3 bg-primary";
             myMessageP.style = "background-color: #f5f6f7;";
-            //myMessageP.textContent = post.message;
+
             myMessageP.innerHTML = convert(post.message);
             myMessageDiv.appendChild(myMessageP);
             let myMessageTime = document.createElement('p');
             myMessageTime.className = "small me-3 mb-3 rounded-3 text-muted";
             myMessageTime.textContent = time_ago(new Date(post.date));
+
+            let like = document.createElement('span');
+            like.setAttribute('style','visibility: hidden;' );
+            like.textContent = '👍';
+            checkIfLiked(like, post._id.$oid);
+
+            myMessageDiv.appendChild(like);
             myMessageDiv.appendChild(myMessageTime);
             let myMessageImage = document.createElement('img');
             myMessageImage.src = getUserDetails(chatID).avatar;
