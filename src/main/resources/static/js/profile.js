@@ -1,5 +1,6 @@
-const URL = "http://localhost:8080/users"
-import {userID} from "./auth";
+import {usersURL} from "./url.js";
+import {userID} from "./auth.js";
+import {getUserDetails} from "./users.js";
 
 const usernameinput = document.getElementById('userprofilename');
 const userimageinput = document.getElementById('userprofileimage');
@@ -11,8 +12,8 @@ saveprofile.onclick = function(){
             userName: usernameinput.value,
             pictureLink: userimageinput.value
         };
-        const url = URL;
-        fetch(url, {
+
+        fetch(usersURL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -22,7 +23,12 @@ saveprofile.onclick = function(){
         })
             .then(response => {
                 console.log("User profile updated");
+            document.getElementById('exampleModal').modal('hide');
             })
             .catch(err => console.error(err));
     }
 }
+
+const userProfile = getUserDetails(userID);
+profilePic.src = userProfile.avatar;
+//Todo: only update profilePic if we have one, otherwise use generic pic

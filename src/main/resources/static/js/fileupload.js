@@ -1,4 +1,5 @@
-const imageUploadURL = 'http://localhost:8080/images';
+import {imagesURL} from "./url.js";
+import {userID} from "./auth.js";
 
 const showFileUpload = document.getElementById('showDialog');
 const favDialog = document.getElementById('favDialog');
@@ -48,7 +49,7 @@ function readURL(input) {
 
 //Todo: Fix this according to the imageservice endpoint
 const upload = (file) => {
-    fetch('http://www.example.net', { // Your POST endpoint
+    fetch(imagesURL, { // Your POST endpoint
         method: 'POST',
         headers: {
             "Content-Type": "You will perhaps need to define a content-type here"

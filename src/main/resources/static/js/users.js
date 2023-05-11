@@ -1,3 +1,4 @@
+
 function getUserDetails(userId) {
 
     //Todo: Ask UserProfile service for information

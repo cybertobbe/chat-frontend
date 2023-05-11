@@ -1,8 +1,7 @@
 import {getUserDetails} from "./users.js";
-import {userID} from "./auth";
+import {userID} from "./auth.js";
+import {messagesURL} from "./url.js";
 
-const URL = 'http://localhost:8000'
-//const userID = '123';
 let chatID = '321';
 
 const textArea = document.getElementById('textArea_message');
@@ -24,10 +23,6 @@ document.onvisibilitychange = (event) => {
     }
 }
 
-const userProfile = getUserDetails(userID);
-profilePic.src = userProfile.avatar;
-
-
 function send_message_onclick() {
     let message = textArea.value;
     if (message !== "")
@@ -39,8 +34,7 @@ function post_message(message) {
         to: chatID,
         message: message
     };
-    const url = URL + '/newmessage';
-    fetch(url, {
+    fetch(messagesURL, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -57,8 +51,7 @@ function post_message(message) {
 }
 
 function update_posts() {
-    const url = URL + '/chat?';
-    fetch(url + new URLSearchParams({
+    fetch(messagesURL + '?'+new URLSearchParams({
         to: chatID
     }), {
         method: 'GET',
@@ -166,7 +159,7 @@ function time_ago(time) {
         token = 'ago',
         list_choice = 1;
 
-    if (seconds == 0) {
+    if (seconds === 0) {
         return 'Just now'
     }
     if (seconds < 0) {
