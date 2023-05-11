@@ -224,7 +224,7 @@ function isImage(url) {
 function isImgUrl(url) {
     return fetch(url, {method: 'HEAD',cache: "force-cache"})
         .then(res => {
-            return res.headers.get('Content-Type').startsWith('image');
+            return  res.headers.get('Content-Type').startsWith('image');
         })
         .catch(reason => {
             return false;

@@ -1,5 +1,6 @@
 import {imagesURL} from "./url.js";
 import {userID} from "./auth.js";
+import {insertAtCursor} from "./emojis.js";
 
 const showFileUpload = document.getElementById('showDialog');
 const favDialog = document.getElementById('favDialog');
@@ -16,19 +17,17 @@ favDialog.addEventListener('close', (e) => {
     //Clean up file dialog for reuse
     confirmBtn.disabled = true;
     document.getElementById('preview')
-        .setAttribute('src',"http://placehold.it/180");
+        .setAttribute('src',"img/placeholder.png");
     document.getElementById('fileInput').value = null;
-
-    //Todo: Did we upload a file and got an url we can insert into the chat text?
-    // favDialog.returnValue === 'default' ? "No return value." : `ReturnValue: ${favDialog.returnValue}.`; // Have to check for "default" rather than empty string
 });
 
-confirmBtn.addEventListener('click', (event) => {
+confirmBtn.addEventListener('click', async (event) => {
     event.preventDefault(); // We don't want to submit this fake form
 
-    //Todo: if we have a file, upload and when done put returned url into chatwindow
-
-    // favDialog.close(selectEl.value); // Have to send the select box value here.
+     var imageUrl = await upload(document.getElementById('fileInput').files[0]);
+     console.log(imageUrl);
+     if( imageUrl !== "")
+         insertAtCursor(document.getElementById('textArea_message'), imageUrl);
     favDialog.close();
 });
 
@@ -47,18 +46,21 @@ function readURL(input) {
     }
 }
 
-//Todo: Fix this according to the imageservice endpoint
-const upload = (file) => {
-    fetch(imagesURL, { // Your POST endpoint
+const upload = async (file) => {
+    const formData = new FormData();
+    formData.append('image', file);
+    return fetch(imagesURL, { // Your POST endpoint
         method: 'POST',
         headers: {
-            "Content-Type": "You will perhaps need to define a content-type here"
         },
-        body: file // This is your file object
+        body: formData
     }).then(
-        response => response.json() // if the response is a JSON object
+        response => response.text() // if the response is a JSON object
     ).then(
-        success => console.log(success) // Handle the success response object
+        success => {
+            console.log("Image uploaded, available at: " + success)
+            return success;
+        }// Handle the success response object
     ).catch(
         error => console.log(error) // Handle the error response object
     );
