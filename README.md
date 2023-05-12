@@ -5,18 +5,19 @@ docker build -t chatgut/frontend:version .
 
 docker run -p 8080:8080 chatgut/frontend:version
 
-The following services are now implemented:
+The following services are used:
 
 #### Chat messages
-Our userID is set as http header called userID.
-
-POST http://localhost:8000/posts
-{
-to: chatID,
-message: message
-}
-
----
-GET http://localhost:8000/posts?to=chatID
+https://github.com/chatgut/microPostService
 
 #### Images upload
+https://github.com/chatgut/imageService
+
+#### Like messages
+https://github.com/chatgut/worthreadingservice
+
+#### User profiles
+https://github.com/chatgut/UserService
+
+#### Auth,( needs gateway that forwards userID header. )
+https://github.com/chatgut/AuthService2   //Not tested yet

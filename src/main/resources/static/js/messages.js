@@ -2,6 +2,7 @@ import {getUserDetails} from "./users.js";
 import {userID} from "./auth.js";
 import {messagesURL} from "./url.js";
 import {checkIfLiked, toogleLike} from "./like.js";
+import {updateConversations} from "./conversations.js";
 
 let chatID = '321';
 
@@ -23,6 +24,12 @@ document.onvisibilitychange = (event) => {
         updateTimerIntervalId = 0;
     }
 }
+
+export function changeChatId(chatid) {
+    chatID = chatid;
+    update_posts();
+}
+
 
 function send_message_onclick() {
     let message = textArea.value;
@@ -52,7 +59,9 @@ function post_message(message) {
 }
 
 function update_posts() {
-    fetch(messagesURL + '?'+new URLSearchParams({
+    updateConversations();
+
+    fetch(messagesURL + '?' + new URLSearchParams({
         to: chatID
     }), {
         method: 'GET',
@@ -66,10 +75,10 @@ function update_posts() {
         .then(body => addPosts(body)) // you can use response body here
 }
 
-function addPosts(posts) {
+async function addPosts(posts) {
 
-    const mySelf = getUserDetails(userID);
-    const otherUser = getUserDetails(chatID);
+    const mySelf = await getUserDetails(userID);
+    const otherUser = await getUserDetails(chatID);
 
     //Build array of new items.
     const htmlPosts = [];
@@ -80,7 +89,7 @@ function addPosts(posts) {
             myMessage.className = "d-flex flex-row justify-content-start";
 
             let myMessageImage = document.createElement('img');
-            myMessageImage.src = getUserDetails(userID).avatar;
+            myMessageImage.src = mySelf.avatar;
             myMessageImage.style = "width: 45px; height: 100%;";
             myMessage.appendChild(myMessageImage);
 
@@ -99,7 +108,7 @@ function addPosts(posts) {
             myMessageTime.textContent = time_ago(new Date(post.date));
 
             let like = document.createElement('span');
-            like.setAttribute('style','visibility: hidden;' );
+            like.setAttribute('style', 'visibility: hidden;');
             like.textContent = '👍';
             checkIfLiked(like, post._id.$oid);
 
@@ -125,14 +134,14 @@ function addPosts(posts) {
             myMessageTime.textContent = time_ago(new Date(post.date));
 
             let like = document.createElement('span');
-            like.setAttribute('style','visibility: hidden;' );
+            like.setAttribute('style', 'visibility: hidden;');
             like.textContent = '👍';
             checkIfLiked(like, post._id.$oid);
 
             myMessageDiv.appendChild(like);
             myMessageDiv.appendChild(myMessageTime);
             let myMessageImage = document.createElement('img');
-            myMessageImage.src = getUserDetails(chatID).avatar;
+            myMessageImage.src = otherUser.avatar;
             myMessageImage.style = "width: 45px; height: 100%;";
             myMessage.appendChild(myMessageImage);
             htmlPosts.push(myMessage);
@@ -211,8 +220,8 @@ function linkify(text) {
 function convert(text) {
     text = htmlEscape(text);  //Replace characters that makes html tags to prevent injection of formatting.
     text = text.replace(/\n/g, "<br>");  //Replace linebreak with <br> tag.
-    var exp2 =/(^|[^\/])(www\.[\S]+(\b|$))/gim;
-    text =  text.replace(exp2, '$1http://$2');  //Make text starting with www into a http link?
+    var exp2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+    text = text.replace(exp2, '$1http://$2');  //Make text starting with www into a http link?
     return linkify(text);
 }
 
@@ -242,9 +251,9 @@ function isImage(url) {
 }
 
 function isImgUrl(url) {
-    return fetch(url, {method: 'HEAD',cache: "force-cache"})
+    return fetch(url, {method: 'HEAD', cache: "force-cache"})
         .then(res => {
-            return  res.headers.get('Content-Type').startsWith('image');
+            return res.headers.get('Content-Type').startsWith('image');
         })
         .catch(reason => {
             return false;

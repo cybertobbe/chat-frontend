@@ -1,97 +1,83 @@
-const authUrl = "https://fungover.org/auth";
+import {authURL} from "./url.js";
+
 let loggedIn = false;
 export let userID = '123';
+const authDialog = document.getElementById('authDialog');
 
-window.onload = function () {
-    let token = localStorage.getItem('Token');
+//window.onload = checkIfLoggedIn();
 
-    if (token === null) {
-        console.log("No token found");
-        //Todo: Show login dialog
-        loggedIn = false;
+document.getElementById('authDialog').addEventListener('cancel', (event) => {
+    event.preventDefault();
+});
 
-    } else if (!isTokenExpired(token)) {
-        console.log("Valid token found");
-        loggedIn = true;
+document.getElementById('submitLogin').onclick = () => {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
 
-    } else {
-        console.log("Expired token");
-        localStorage.removeItem('Token');
-        loggedIn = false;
-    }
+    let bodyData = {username, password};
+    let data = {};
+
+    var formValid = document.forms["login-form"].checkValidity();
+    if (!formValid) {
+        document.getElementById('invalid_credentials').hidden = false;
+        return;
+    } else
+        document.getElementById('invalid_credentials').hidden = true;
+
+    fetch(authURL + "/login",
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(bodyData)
+        })
+        .then((response) => {
+            if (response.status !== 200) {
+                invalidElement.hidden = false;
+                loggedIn = false;
+                throw new Error(response.status)
+            }
+            return response;
+        })
+        .then(res => res.json())
+        .then((result) => {
+            data = result;
+            console.log(data.token);
+            localStorage.setItem('Token', data.token);
+            userID = subjectFromToken(data.token);
+            loggedIn = true;
+        })
+        .catch(function (err) {
+            const invalidElement = document.getElementById("invalid_credentials");
+            invalidElement.hidden = false;
+            console.log(err);
+        });
+
+
+    console.log("Time to login");
 }
 
+function checkIfLoggedIn() {
+    return function () {
+        let token = localStorage.getItem('Token');
 
-// const logIn = async e => {
-//     e.preventDefault();
-//
-//     let bodyData = {username, password};
-//     let data = {};
-//
-//     fetch('http://localhost/auth/',
-//         {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json'
-//             },
-//             body: JSON.stringify(bodyData)
-//         })
-//         .then((response) => {
-//             if (response.status !== 200) {
-//                 throw new Error(response.status)
-//             }
-//             return response;
-//         })
-//         .then(res => res.json())
-//         .then((result) => {
-//             data = result;
-//             /** @namespace data.access_token **/
-//             console.log(data.access_token);
-//             localStorage.setItem('Token', data.access_token);
-//             history.push("/home");
-//         })
-//         .catch(function (err) {
-//             const invalidElement = document.getElementById("invalid_credentials");
-//             invalidElement.hidden = false;
-//             console.log(err);
-//         });
-// };
-
-//     return (
-//         <div>
-//             <div className="con">
-//                 <header className="App-header">
-//                     <h1 className="h1">
-//                         ITHSC
-//                     </h1>
-//                     <img src={logo} className="App-logo" alt="logo"/>
-//                 </header>
-//                 <div className="login-con">
-//                     <div id={"invalid_credentials"} hidden={true}>Invalid credentials</div>
-//                     <form onSubmit={logIn}>
-//                         <div className="username-div">
-//                             <label>
-//                                 <input type="text" placeholder="Username:" value={username} id="username"
-//                                        onChange={({target}) => setUsername(target.value)} required/>
-//                             </label>
-//                         </div>
-//                         <div className="Password-div">
-//                             <label>
-//                                 <input type="password" placeholder="Password:" id="password" value={password}
-//                                        onChange={({target}) => setPassword(target.value)} required/>
-//                             </label>
-//                         </div>
-//                         <div>
-//                             <button type="submit" id={"submit"} className="login-button">Login</button>
-//                         </div>
-//                     </form>
-//                 </div>
-//                 <p><Link to="/register" className="alink"> Register Here </Link></p>
-//
-//             </div>
-//         </div>
-//     )
-// };
+        if (token === null) {
+            console.log("No token found");
+            loggedIn = false;
+            authDialog.showModal();
+        } else if (!isTokenExpired(token)) {
+            console.log("Valid token found");
+            userID = subjectFromToken(token);
+            loggedIn = true;
+        } else {
+            console.log("Expired token");
+            localStorage.removeItem('Token');
+            loggedIn = false;
+            authDialog.showModal();
+        }
+    };
+}
 
 function parseJwt(token) {
     const base64Url = token.split('.')[1];

@@ -74,6 +74,38 @@
         </div>
     </form>
 </dialog>
+<dialog id="authDialog">
+    <header>
+        <h2>
+            Login to ChatGUT
+        </h2>
+    </header>
+    <div>
+        <div id="invalid_credentials" hidden="hidden">Invalid credentials</div>
+        <form id="login-form" action="javascript:0">
+            <div style="float:left"><img src="img/logo.png" alt="logo" style="max-width: 100px;"/></div>
+            <div style="float:left">
+                <div style="padding: 5px">
+                    <label>
+                        Username :
+                        <input type="text" placeholder="Username" value="" id="username" required/>
+                    </label>
+                </div>
+                <div style="padding: 5px">
+                    <label>
+                        Password :
+                        <input type="password" placeholder="Password" id="password" value="" required/>
+                    </label>
+                </div>
+                <div style="float:right; padding:10px;">
+                    <button id="submitLogin">Login</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <p>
+        <a href="/register">Create new account</a></p>
+</dialog>
 <section style="background-color: #CDC4F9;">
 
     <div class="container py-5">
@@ -112,7 +144,7 @@
                                     </div>
 
                                     <div style="position: relative; height: calc(90vh - 150px); overflow-y:auto;">
-                                        <ul class="list-unstyled mb-0">
+                                        <ul id="conversationslist" class="list-unstyled mb-0">
                                             <li class="p-2 border-bottom">
                                                 <a href="#!" class="d-flex justify-content-between">
                                                     <div class="d-flex flex-row">
