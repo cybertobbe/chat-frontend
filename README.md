@@ -20,4 +20,4 @@ https://github.com/chatgut/worthreadingservice
 https://github.com/chatgut/UserService
 
 #### Auth
-https://github.com/chatgut/AuthService2   
+https://github.com/chatgut/AuthService2

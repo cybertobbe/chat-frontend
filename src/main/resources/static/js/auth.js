@@ -27,7 +27,7 @@ document.getElementById('submitLogin').onclick = () => {
     } else
         document.getElementById('invalid_credentials').hidden = true;
 
-    fetch(authURL, //+ "/login",
+    fetch(authURL,
         {
             method: 'POST',
             headers: {
@@ -45,7 +45,7 @@ document.getElementById('submitLogin').onclick = () => {
         })
         .then(res => res.json())
         .then((data) => {
-            localStorage.setItem('Token', data.access_token);
+            localStorage.setItem('Token', data.token);
             checkIfLoggedIn();
             authDialog.close();
         })
