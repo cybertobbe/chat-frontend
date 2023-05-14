@@ -1,25 +1,23 @@
 import {getUserDetails} from "./users.js";
-import {loggedIn, userID} from "./auth.js";
+import {checkIfLoggedIn, loggedIn, userID} from "./auth.js";
 import {messagesURL} from "./url.js";
 import {checkIfLiked, toogleLike} from "./like.js";
 import {updateConversations} from "./conversations.js";
+import {reloadUserProfile} from "./profile.js";
 
 let chatID = '321';
 
 const textArea = document.getElementById('textArea_message');
 const chatArea = document.getElementById('chatArea');
-const profilePic = document.getElementById('profilePic');
 
 document.getElementById('send_message').onclick = send_message_onclick;
-update_posts();
 
-let updateTimerIntervalId = setInterval(update_posts, 5000);
+let updateTimerIntervalId = setInterval(update, 5000);
 
 //Stop updates when site tab isn't visible
 document.onvisibilitychange = (event) => {
     if (document.visibilityState === "visible" && updateTimerIntervalId === 0) {
-        update_posts();
-        updateTimerIntervalId = setInterval(update_posts, 5000);
+        updateTimerIntervalId = setInterval(update, 5000);
     } else {
         clearInterval(updateTimerIntervalId);
         updateTimerIntervalId = 0;
@@ -31,14 +29,25 @@ export function changeChatId(chatid) {
     update_posts();
 }
 
-
 function send_message_onclick() {
     let message = textArea.value;
     if (message !== "")
         post_message(message);
 }
 
+function update(){
+    if( !checkIfLoggedIn())
+        return;
+
+    update_posts();
+    updateConversations();
+    reloadUserProfile();
+}
+
+
 function post_message(message) {
+    checkIfLoggedIn();
+
     const body = {
         to: chatID,
         message: message
@@ -60,10 +69,6 @@ function post_message(message) {
 }
 
 function update_posts() {
-    if( !loggedIn)
-        return;
-    updateConversations();
-
     fetch(messagesURL + '?' + new URLSearchParams({
         to: chatID
     }), {
@@ -215,7 +220,7 @@ function linkify(text) {
     var urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
     return text.replace(urlRegex, function (url) {
         if (isImage(url))
-            return '<a target="_blank" rel="noopener noreferrer" href="' + url + '"><img src="' + url + '" style="max-width:180px;"></a>';
+            return '<a target="_blank" rel="noopener noreferrer" href="' + url + '"><img src="' + url + '" style="max-width:180px;" alt=""></a>';
         return '<a target="_blank" rel="noopener noreferrer" href="' + url + '">' + url + '</a>';
     });
 }

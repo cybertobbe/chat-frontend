@@ -1,5 +1,5 @@
 import {usersURL} from "./url.js";
-import {userID} from "./auth.js";
+import {checkIfLoggedIn, userID} from "./auth.js";
 
 function getUserDetails(userId) {
 

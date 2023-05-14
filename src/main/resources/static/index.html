@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <meta http-equiv="x-ua-compatible" content="ie=edge"/>
-    <title>Material Design for Bootstrap</title>
+    <title>ChatGUT</title>
     <!-- MDB icon -->
     <link rel="icon" href="img/mdb-favicon.ico" type="image/x-icon"/>
     <!-- Font Awesome -->
@@ -41,7 +41,7 @@
 <body>
 <!-- Start your project here-->
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -58,7 +58,7 @@
                 <label>Profile pic url:<input type="text" id="userprofileimage"></label>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" id="closeprofile" data-mdb-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" id="saveprofile">Save changes</button>
             </div>
         </div>
@@ -351,8 +351,8 @@
 <!-- MDB -->
 <script type="text/javascript" src="js/mdb.min.js"></script>
 <!-- Custom scripts -->
-<script type="module" src="js/messages.js"></script>
 <script type="module" src="js/auth.js"></script>
+<script type="module" src="js/messages.js"></script>
 <script type="module" src="js/users.js"></script>
 <script type="module" src="js/fileupload.js"></script>
 <script type="module" src="js/emojis.js"></script>

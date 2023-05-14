@@ -24,7 +24,8 @@ saveprofile.onclick = function () {
         })
             .then(response => {
                 console.log("User profile updated");
-                document.getElementById('exampleModal').modal('hide');
+                reloadUserProfile();
+                document.getElementById('closeprofile').click();
             })
             .catch(err => console.error(err));
     }

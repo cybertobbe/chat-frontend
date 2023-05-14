@@ -4,6 +4,9 @@ import {reloadUserProfile} from "./profile.js";
 export let loggedIn = false;
 export let userID = '';
 const authDialog = document.getElementById('authDialog');
+let username = "";
+let password = "";
+
 
 window.onload = () => checkIfLoggedIn();
 
@@ -14,11 +17,10 @@ document.getElementById('authDialog').addEventListener('cancel', (event) => {
 document.getElementById('logout_button').onclick = () => logout();
 
 document.getElementById('submitLogin').onclick = () => {
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
+    username = document.getElementById('username').value;
+    password = document.getElementById('password').value;
 
-    let bodyData = {username, password};
-    let data = {};
+    const bodyData = {username, password};
 
     var formValid = document.forms["login-form"].checkValidity();
     if (!formValid) {
@@ -27,6 +29,10 @@ document.getElementById('submitLogin').onclick = () => {
     } else
         document.getElementById('invalid_credentials').hidden = true;
 
+    retrieveNewToken(bodyData);
+}
+
+function retrieveNewToken(bodyData) {
     fetch(authURL,
         {
             method: 'POST',
@@ -46,15 +52,17 @@ document.getElementById('submitLogin').onclick = () => {
         .then(res => res.json())
         .then((data) => {
             localStorage.setItem('Token', data.token);
-            checkIfLoggedIn();
+            userID = subjectFromToken(data.token);
+            loggedIn = true;
             authDialog.close();
         })
         .catch(function (err) {
             const invalidElement = document.getElementById("invalid_credentials");
-            document.getElementById('invalid_credentials') .hidden = false;
+            document.getElementById('invalid_credentials').hidden = false;
             console.log(err);
         });
 }
+
 
 function logout() {
     localStorage.removeItem('Token');
@@ -63,26 +71,35 @@ function logout() {
     location.reload();
 }
 
-function checkIfLoggedIn() {
-        let token = localStorage.getItem('Token');
+export function checkIfLoggedIn() {
+    let token = localStorage.getItem('Token');
+    if (authDialog.open)
+        return false;
 
-        if (token === null) {
-            console.log("No token found");
-            loggedIn = false;
-            userID = '';
-            authDialog.showModal();
-        } else if (!isTokenExpired(token)) {
-            console.log("Valid token found");
-            userID = subjectFromToken(token);
-            loggedIn = true;
-            reloadUserProfile();
+    if (token === null) {
+        console.log("No token found");
+        loggedIn = false;
+        userID = '';
+        authDialog.showModal();
+    } else if (!isTokenExpired(token)) {
+        console.log("Valid token found");
+        userID = subjectFromToken(token);
+        loggedIn = true;
+    } else {
+        console.log("Expired token");
+        //Token has expired go get a new one
+        if (username !== "" && password !== "") {
+            const bodyData = {username, password};
+            retrieveNewToken(bodyData);
+            //Todo: Implement refresh token instead of reusing username/password.
+            // If reloading site these values are lost.
         } else {
-            console.log("Expired token");
-            localStorage.removeItem('Token');
             loggedIn = false;
             userID = '';
             authDialog.showModal();
         }
+    }
+    return loggedIn;
 }
 
 function parseJwt(token) {
