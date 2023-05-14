@@ -1,6 +1,7 @@
 import {messagesURL} from "./url.js";
 import {userID} from "./auth.js";
 import {changeChatId} from "./messages.js";
+import {getUserDetails} from "./users.js";
 
 const conversationslist = document.getElementById('conversationslist');
 
@@ -18,9 +19,10 @@ export function updateConversations() {
 
 function handleConversations(conversations) {
 
-    const htmlConversations = [];
+    removeAllChildNodes(conversationslist);
 
-    conversations.forEach(e => {
+    conversations.forEach(async e =>  {
+        const uInfo = getUserDetails(e);
 
         let listItem = document.createElement('li');
         listItem.className = "p-2 border-bottom";
@@ -28,30 +30,62 @@ function handleConversations(conversations) {
             console.log("Changing chat to: " + e);
             changeChatId(e);
         };
+        let div0 = document.createElement('div');
+        div0.className = "d-flex justify-content-between";
+        listItem.appendChild(div0);
 
-        //Todo: Replace innerhtml with createElement
-        listItem.innerHTML =
-            `<a href="#!" className="d-flex justify-content-between">
-                <div className="d-flex flex-row">
-                    <div>
-                        <img
-                            src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
-                            alt="avatar" className="d-flex align-self-center me-3"
-                            width="60">
-                            <span className="badge bg-success badge-dot"></span>
-                    </div>
-                    <div className="pt-1">
-                        <p className="fw-bold mb-0">Marie Horwitz</p>
-                        <p className="small text-muted">Hello, Are you there?</p>
-                    </div>
-                </div>
-                <div className="pt-1">
-                    <p className="small text-muted mb-1">Just now</p>
-                    <span className="badge bg-danger rounded-pill float-end">3</span>
-                </div>
-            </a>`;
+        let div1 = document.createElement('div');
+        div1.className = "d-flex flex-row";
+        div0.appendChild(div1);
 
-        htmlConversations.push(listItem);
+        let div2 = document.createElement('div');
+        let img = document.createElement('img');
+        uInfo.then(u => img.src = u.avatar);
+        img.alt = "avatar";
+        img.className = "d-flex align-self-center me-3";
+        img.width = 60;
+        div2.appendChild(img);
+
+        let span = document.createElement('span');
+        span.className = "badge bg-success badge-dot";
+        div2.appendChild(span);
+
+        let div3 = document.createElement('div');
+        div3.className = "pt-1";
+        let p1 = document.createElement('p');
+        p1.className = "fw-bold mb-0";
+        uInfo.then(u => p1.innerText = u.name);
+        div3.appendChild(p1);
+
+        let p2 = document.createElement('p');
+        p2.className = "small text-muted";
+        p2.innerText = "Hello, Are you there?";
+        div3.appendChild(p2);
+
+        div1.appendChild(div2);
+        div1.appendChild(div3);
+
+        let div4 = document.createElement('div');
+        div4.className = "pt-1";
+
+        let p3 = document.createElement('p');
+        p3.className = "small text-muted mb-1";
+        p3.innerText = "Someday";
+        div4.appendChild(p3);
+
+        let s1 = document.createElement('span');
+        s1.className = "badge bg-danger rounded-pill float-end";
+        s1.innerText = "0";
+        div4.appendChild(s1);
+
+        div0.appendChild(div4);
+
+        conversationslist.appendChild(listItem);
     });
-    conversationslist.replaceChildren(...htmlConversations);
+}
+
+function removeAllChildNodes(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
 }
