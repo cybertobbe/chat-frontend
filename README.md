@@ -19,5 +19,5 @@ https://github.com/chatgut/worthreadingservice
 #### User profiles
 https://github.com/chatgut/UserService
 
-#### Auth,( needs gateway that forwards userID header. )
-https://github.com/chatgut/AuthService2   //Not tested yet
+#### Auth
+https://github.com/chatgut/AuthService2   

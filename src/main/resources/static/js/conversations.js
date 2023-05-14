@@ -1,11 +1,13 @@
 import {messagesURL} from "./url.js";
-import {userID} from "./auth.js";
+import {loggedIn, userID} from "./auth.js";
 import {changeChatId} from "./messages.js";
 import {getUserDetails} from "./users.js";
 
 const conversationslist = document.getElementById('conversationslist');
 
 export function updateConversations() {
+    if( !loggedIn)
+        return;
     fetch(messagesURL + '/conversations', {
         method: 'GET',
         headers: {

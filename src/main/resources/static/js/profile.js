@@ -30,5 +30,6 @@ saveprofile.onclick = function () {
     }
 }
 
-const userProfile = await getUserDetails(userID);
-profilePic.src = userProfile.avatar;
+export function reloadUserProfile(){
+    getUserDetails(userID).then(userProfile => profilePic.src = userProfile.avatar);
+}

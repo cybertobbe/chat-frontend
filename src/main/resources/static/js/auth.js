@@ -1,14 +1,17 @@
 import {authURL} from "./url.js";
+import {reloadUserProfile} from "./profile.js";
 
-let loggedIn = false;
-export let userID = '123';
+export let loggedIn = false;
+export let userID = '';
 const authDialog = document.getElementById('authDialog');
 
-//window.onload = checkIfLoggedIn();
+window.onload = () => checkIfLoggedIn();
 
 document.getElementById('authDialog').addEventListener('cancel', (event) => {
     event.preventDefault();
 });
+
+document.getElementById('logout_button').onclick = () => logout();
 
 document.getElementById('submitLogin').onclick = () => {
     const username = document.getElementById('username').value;
@@ -24,7 +27,7 @@ document.getElementById('submitLogin').onclick = () => {
     } else
         document.getElementById('invalid_credentials').hidden = true;
 
-    fetch(authURL + "/login",
+    fetch(authURL, //+ "/login",
         {
             method: 'POST',
             headers: {
@@ -34,49 +37,52 @@ document.getElementById('submitLogin').onclick = () => {
         })
         .then((response) => {
             if (response.status !== 200) {
-                invalidElement.hidden = false;
+                document.getElementById('invalid_credentials').hidden = false;
                 loggedIn = false;
-                throw new Error(response.status)
+                throw new Error(response.status);
             }
             return response;
         })
         .then(res => res.json())
-        .then((result) => {
-            data = result;
-            console.log(data.token);
-            localStorage.setItem('Token', data.token);
-            userID = subjectFromToken(data.token);
-            loggedIn = true;
+        .then((data) => {
+            localStorage.setItem('Token', data.access_token);
+            checkIfLoggedIn();
+            authDialog.close();
         })
         .catch(function (err) {
             const invalidElement = document.getElementById("invalid_credentials");
-            invalidElement.hidden = false;
+            document.getElementById('invalid_credentials') .hidden = false;
             console.log(err);
         });
+}
 
-
-    console.log("Time to login");
+function logout() {
+    localStorage.removeItem('Token');
+    loggedIn = false;
+    userID = '';
+    location.reload();
 }
 
 function checkIfLoggedIn() {
-    return function () {
         let token = localStorage.getItem('Token');
 
         if (token === null) {
             console.log("No token found");
             loggedIn = false;
+            userID = '';
             authDialog.showModal();
         } else if (!isTokenExpired(token)) {
             console.log("Valid token found");
             userID = subjectFromToken(token);
             loggedIn = true;
+            reloadUserProfile();
         } else {
             console.log("Expired token");
             localStorage.removeItem('Token');
             loggedIn = false;
+            userID = '';
             authDialog.showModal();
         }
-    };
 }
 
 function parseJwt(token) {

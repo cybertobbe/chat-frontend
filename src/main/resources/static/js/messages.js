@@ -1,5 +1,5 @@
 import {getUserDetails} from "./users.js";
-import {userID} from "./auth.js";
+import {loggedIn, userID} from "./auth.js";
 import {messagesURL} from "./url.js";
 import {checkIfLiked, toogleLike} from "./like.js";
 import {updateConversations} from "./conversations.js";
@@ -12,6 +12,7 @@ const profilePic = document.getElementById('profilePic');
 
 document.getElementById('send_message').onclick = send_message_onclick;
 update_posts();
+
 let updateTimerIntervalId = setInterval(update_posts, 5000);
 
 //Stop updates when site tab isn't visible
@@ -59,6 +60,8 @@ function post_message(message) {
 }
 
 function update_posts() {
+    if( !loggedIn)
+        return;
     updateConversations();
 
     fetch(messagesURL + '?' + new URLSearchParams({
