@@ -25,6 +25,7 @@ document.onvisibilitychange = (event) => {
 }
 
 export function changeChatId(chatid) {
+    console.log("Changing chat to: " + chatid);
     chatID = chatid;
     update_posts();
 }

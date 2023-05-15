@@ -22,13 +22,12 @@ function handleConversations(conversations) {
 
     removeAllChildNodes(conversationslist);
 
-    conversations.forEach(async e =>  {
+    conversations.forEach(async e => {
         const uInfo = getUserDetails(e);
 
         let listItem = document.createElement('li');
         listItem.className = "p-2 border-bottom";
         listItem.onclick = () => {
-            console.log("Changing chat to: " + e);
             changeChatId(e);
         };
         let div0 = document.createElement('div');
@@ -88,5 +87,32 @@ function handleConversations(conversations) {
 function removeAllChildNodes(parent) {
     while (parent.firstChild) {
         parent.removeChild(parent.firstChild);
+    }
+}
+
+document.getElementById('search').onkeyup = findusers;
+
+function findusers() {
+    const searchterm = document.getElementById('search').value;
+    var select = document.getElementById("usernames");
+
+    document.getElementById('search').onchange = () => {
+         changeChatId(document.getElementById('search').value);
+    }
+
+    //Todo: Call some service with searchterm and get an array back of matching usernames/ids
+
+    console.log("Call server");
+
+    removeAllChildNodes(select);
+
+    var options = ["Anders", "Sven", "Erik", "Ehhh", "Mmm", searchterm];
+
+    for(var i = 0; i < options.length; i++) {
+        const opt = options[i];
+        let el = document.createElement("option");
+        el.textContent = opt;
+        el.value = opt;
+        select.appendChild(el);
     }
 }
