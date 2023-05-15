@@ -5,7 +5,7 @@ function getUserDetails(userId) {
 
     const defaultProfile = {
         name: "John Doe",
-        avatar: "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+        imageLink: "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
     };
 
     return fetch(usersURL + '/' + userId, {

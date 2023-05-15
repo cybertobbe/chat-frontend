@@ -7,10 +7,10 @@ const userimageinput = document.getElementById('userprofileimage');
 const saveprofile = document.getElementById('saveprofile');
 
 saveprofile.onclick = function () {
-    if (usernameinput.value !== "" && userimageinput !== "") {
+    if (usernameinput.value !== "" && userimageinput.value !== "") {
         const body = {
             name: usernameinput.value,
-            avatar: userimageinput.value
+            imageLink: userimageinput.value
         };
 
         fetch(usersURL, {
@@ -32,5 +32,5 @@ saveprofile.onclick = function () {
 }
 
 export function reloadUserProfile(){
-    getUserDetails(userID).then(userProfile => profilePic.src = userProfile.avatar);
+    getUserDetails(userID).then(userProfile => profilePic.src = userProfile.imageLink);
 }

@@ -97,7 +97,7 @@ async function addPosts(posts) {
             myMessage.className = "d-flex flex-row justify-content-start";
 
             let myMessageImage = document.createElement('img');
-            myMessageImage.src = mySelf.avatar;
+            myMessageImage.src = mySelf.imageLink;
             myMessageImage.style = "width: 45px; height: 100%;";
             myMessage.appendChild(myMessageImage);
 
@@ -149,7 +149,7 @@ async function addPosts(posts) {
             myMessageDiv.appendChild(like);
             myMessageDiv.appendChild(myMessageTime);
             let myMessageImage = document.createElement('img');
-            myMessageImage.src = otherUser.avatar;
+            myMessageImage.src = otherUser.imageLink;
             myMessageImage.style = "width: 45px; height: 100%;";
             myMessage.appendChild(myMessageImage);
             htmlPosts.push(myMessage);
