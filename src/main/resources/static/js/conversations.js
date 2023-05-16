@@ -92,19 +92,23 @@ function removeAllChildNodes(parent) {
 
 document.getElementById('search').onkeyup = findusers;
 
+document.getElementById('search').onchange = () => {
+    changeChatId(document.getElementById('search').value);
+}
+
 function findusers() {
     const searchterm = document.getElementById('search').value;
     var select = document.getElementById("usernames");
 
-    document.getElementById('search').onchange = () => {
-         changeChatId(document.getElementById('search').value);
-    }
+
 
     //Todo: Call some service with searchterm and get an array back of matching usernames/ids
 
     console.log("Call server");
 
     removeAllChildNodes(select);
+
+
 
     var options = ["Anders", "Sven", "Erik", "Ehhh", "Mmm", searchterm];
 

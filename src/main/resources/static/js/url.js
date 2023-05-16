@@ -7,3 +7,5 @@ export const likesURL = 'http://localhost:8005/like/';
 //search   8006
 
 //gateway 8080
+
+//Todo: Generate file from controller with env for hostname
