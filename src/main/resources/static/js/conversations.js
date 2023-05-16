@@ -40,7 +40,7 @@ function handleConversations(conversations) {
 
         let div2 = document.createElement('div');
         let img = document.createElement('img');
-        uInfo.then(u => img.src = u.avatar);
+        uInfo.then(u => img.src = u.imageLink);
         img.alt = "avatar";
         img.className = "d-flex align-self-center me-3";
         img.width = 60;
@@ -59,7 +59,7 @@ function handleConversations(conversations) {
 
         let p2 = document.createElement('p');
         p2.className = "small text-muted";
-        p2.innerText = "Hello, Are you there?";
+        p2.innerText = "Here we can show more info";
         div3.appendChild(p2);
 
         div1.appendChild(div2);
