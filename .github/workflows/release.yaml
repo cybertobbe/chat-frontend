@@ -14,18 +14,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-#      - name: Get Java Version
-#        run: |
-#          Java_Version=$(mvn help:evaluate "-Dexpression=java.version" -q -DforceStdout | sed -e 's/^1\./1.0./')
-#          echo "Java_Version=$Java_Version" >> $GITHUB_ENV
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
-#          java-version: ${{ env.Java_Version }}
-          java-version: 20
+          java-version: '20'
           distribution: 'temurin'
-          cache: maven
-
+          cache: 'maven'
       - name: Compile and test with Maven
         run: mvn -B package --file pom.xml
 

@@ -1,4 +1,4 @@
-import {messagesURL} from "./url.js";
+import {messagesURL, usersURL} from "./url.js";
 import {checkIfLoggedIn, loggedIn, userID} from "./auth.js";
 import {changeChatId} from "./messages.js";
 import {getUserDetails} from "./users.js";
@@ -93,30 +93,32 @@ function removeAllChildNodes(parent) {
 document.getElementById('search').onkeyup = findusers;
 
 document.getElementById('search').onchange = () => {
-    changeChatId(document.getElementById('search').value);
+    changeChatId(document.getElementById('search').key);
 }
 
 function findusers() {
     const searchterm = document.getElementById('search').value;
     var select = document.getElementById("usernames");
 
-
-
-    //Todo: Call some service with searchterm and get an array back of matching usernames/ids
-
     console.log("Call server");
+    //Todo: optimize call count
+    fetch(usersURL + '/all', {
+        method: 'GET',
+        headers: {
+            'userID': userID
+        },
+        cache: "no-store"
+    })
+        .then(response => response.json()) // output the status and return response
+        .then(body => {
+            removeAllChildNodes(select);
 
-    removeAllChildNodes(select);
-
-
-
-    var options = ["Anders", "Sven", "Erik", "Ehhh", "Mmm", searchterm];
-
-    for(var i = 0; i < options.length; i++) {
-        const opt = options[i];
-        let el = document.createElement("option");
-        el.textContent = opt;
-        el.value = opt;
-        select.appendChild(el);
-    }
+            for(var i = 0; i < body.length; i++) {
+                const opt = body[i];
+                let el = document.createElement("option");
+                el.value = opt.name;
+                el.key =opt.userID;
+                select.appendChild(el);
+            }
+        });
 }
