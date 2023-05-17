@@ -10,7 +10,8 @@ export function updateConversations() {
     fetch(messagesURL + '/conversations', {
         method: 'GET',
         headers: {
-            'userID': userID
+            'userID': userID,
+            'Authorization': 'Bearer ' +  localStorage.getItem('Token')
         },
         cache: "no-store"
     })
@@ -105,7 +106,8 @@ function findusers() {
     fetch(usersURL + '/all', {
         method: 'GET',
         headers: {
-            'userID': userID
+            'userID': userID,
+            'Authorization': 'Bearer ' +  localStorage.getItem('Token')
         },
         cache: "no-store"
     })
