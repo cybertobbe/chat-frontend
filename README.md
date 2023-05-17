@@ -12,6 +12,7 @@ https://github.com/chatgut/microPostService
 
 #### Images upload
 https://github.com/chatgut/imageService
+https://github.com/chatgut/ImageServiceBoV
 
 #### Like messages
 https://github.com/chatgut/worthreadingservice
