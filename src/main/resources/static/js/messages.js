@@ -220,7 +220,7 @@ function time_ago(time) {
 function linkify(text) {
     var urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
     return text.replace(urlRegex, function (url) {
-        if (isImage(url))
+        if (isImgUrl(url))
             return '<a target="_blank" rel="noopener noreferrer" href="' + url + '"><img src="' + url + '" style="max-width:180px;" alt=""></a>';
         return '<a target="_blank" rel="noopener noreferrer" href="' + url + '">' + url + '</a>';
     });
