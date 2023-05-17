@@ -36,8 +36,8 @@ function send_message_onclick() {
         post_message(message);
 }
 
-function update(){
-    if( !checkIfLoggedIn())
+function update() {
+    if (!checkIfLoggedIn())
         return;
 
     update_posts();
@@ -58,7 +58,7 @@ function post_message(message) {
         headers: {
             'Content-Type': 'application/json',
             'userID': userID,
-            'Authorization': 'Bearer ' +  localStorage.getItem('Token')
+            'Authorization': 'Bearer ' + localStorage.getItem('Token')
         },
         body: JSON.stringify(body),
         cache: "no-store"
@@ -77,7 +77,7 @@ function update_posts() {
         method: 'GET',
         headers: {
             'userID': userID,
-            'Authorization': 'Bearer ' +  localStorage.getItem('Token')
+            'Authorization': 'Bearer ' + localStorage.getItem('Token')
         },
         cache: "no-store"
     })
@@ -262,7 +262,14 @@ function isImage(url) {
 }
 
 function isImgUrl(url) {
-    return fetch(url, {method: 'HEAD', cache: "force-cache"})
+    return fetch(url, {
+        method: 'HEAD',
+        headers: {
+            'Content-Type': 'application/json',
+            'userID': userID,
+            'Authorization': 'Bearer ' + localStorage.getItem('Token')
+        }, cache: "force-cache"
+    })
         .then(res => {
             return res.headers.get('Content-Type').startsWith('image');
         })
