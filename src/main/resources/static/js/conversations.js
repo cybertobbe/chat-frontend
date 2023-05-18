@@ -11,7 +11,7 @@ export function updateConversations() {
         method: 'GET',
         headers: {
             'userID': userID,
-            'Authorization': 'Bearer ' +  localStorage.getItem('Token')
+            'Authorization': 'Bearer ' + localStorage.getItem('Token')
         },
         cache: "no-store"
     })
@@ -23,7 +23,9 @@ function handleConversations(conversations) {
 
     removeAllChildNodes(conversationslist);
 
-    conversations.forEach(async e => {
+    conversations.sort();
+
+    conversations.forEach(e => {
         const uInfo = getUserDetails(e);
 
         let listItem = document.createElement('li');
@@ -91,14 +93,18 @@ function removeAllChildNodes(parent) {
     }
 }
 
-document.getElementById('search').onkeyup = findusers;
+const dinput = document.getElementById('search');
+let eventSource = null;
 
-document.getElementById('search').onchange = () => {
-    changeChatId(document.getElementById('search').key);
-}
+dinput.addEventListener('keydown', (e) => {
+    eventSource = e.key ? 'input' : 'list';
+});
+dinput.addEventListener('input', (e) => {
+    if (eventSource === 'input')
+        findusers();
+});
 
 function findusers() {
-    const searchterm = document.getElementById('search').value;
     var select = document.getElementById("usernames");
 
     console.log("Call server");
@@ -107,20 +113,30 @@ function findusers() {
         method: 'GET',
         headers: {
             'userID': userID,
-            'Authorization': 'Bearer ' +  localStorage.getItem('Token')
-        },
-        cache: "no-store"
+            'Authorization': 'Bearer ' + localStorage.getItem('Token')
+        }
     })
+        .then(response => console.log(response.status) || response)
         .then(response => response.json()) // output the status and return response
         .then(body => {
             removeAllChildNodes(select);
-
-            for(var i = 0; i < body.length; i++) {
-                const opt = body[i];
-                let el = document.createElement("option");
-                el.value = opt.name;
-                el.key =opt.userID;
+            body.map( (user, i) => {
+                //Don't display ourself
+                if( user.userID === userID)
+                    return;
+                //i is index
+                let el = document.createElement("li");
+                el.className = "dropdown-item";
+                let span = document.createElement('span');
+                span.innerText = user.name;
+                el.appendChild(span);
+                let img = document.createElement('img');
+                img.src = user.imageLink;
+                img.className = "user-search-img";
+                el.appendChild(img);
+                el.setAttribute('data-id', user.userID);
+                el.onclick = () => changeChatId(user.userID);
                 select.appendChild(el);
-            }
+            });
         });
 }

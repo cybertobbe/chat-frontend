@@ -36,6 +36,11 @@
             margin-left: 2.9rem;
             margin-top: -.75rem;
         }
+
+        .user-search-img {
+            float:right;
+            max-width: 25px;
+        }
     </style>
 </head>
 <body>
@@ -58,7 +63,8 @@
                 <label>Profile pic url:<input type="text" id="userprofileimage"></label>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" id="closeprofile" data-mdb-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" id="closeprofile" data-mdb-dismiss="modal">Close
+                </button>
                 <button type="button" class="btn btn-primary" id="saveprofile">Save changes</button>
             </div>
         </div>
@@ -138,13 +144,40 @@
                                         </div>
                                     </div>
                                     <div class="input-group rounded mb-3">
-                                        <input id="search" class="form-control rounded" placeholder="Search"
-                                               list="usernames"/>
-                                        <datalist id="usernames">
-                                        </datalist>
-                                        <span class="input-group-text border-0" id="search-addon">
-                      <i class="fas fa-search"></i>
-                    </span>
+                                        <!--                                        <input type="search" id="search" class="form-control rounded" autocomplete="off" placeholder="Search"-->
+                                        <!--                                               list="usernames"/>-->
+                                        <!--                                        <datalist id="usernames">-->
+                                        <!--                                        </datalist>-->
+                                        <!--                                        <span class="input-group-text border-0" id="search-addon">-->
+                                        <!--                      <i class="fas fa-search"></i>-->
+                                        <!--                    </span>-->
+                                        <a
+                                                class="dropdown-toggle hidden-arrow btn btn-primary"
+                                                href="#"
+                                                id="navbarDropdownMenuLink"
+                                                role="button"
+                                                data-mdb-toggle="dropdown"
+                                                aria-expanded="false"
+                                        >New chat
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-left"
+                                            aria-labelledby="navbarDropdownMenuLink">
+                                            <li>
+                                                <div class="input-group mt-2 mx-2">
+                                                    <div class="form-outline w-auto">
+                                                        <label class="form-label" for="search">Search</label>
+                                                        <input type="search" autocomplete="off" id="search" class="form-control-dropdown"/>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <hr class="dropdown-divider"/>
+                                            </li>
+                                            <div id="usernames">
+                                                <li class="dropdown-item"><span>Action</span><img style="float:right"  width="25" src="img/logo.png"/></li>
+                                                <li class="dropdown-item"><span>Action</span><img style="float:right"  width="25" src="img/logo.png"/></li>
+                                            </div>
+                                        </ul>
                                     </div>
 
                                     <div style="position: relative; height: calc(90vh - 150px); overflow-y:auto;">

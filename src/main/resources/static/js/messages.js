@@ -5,7 +5,7 @@ import {checkIfLiked, toogleLike} from "./like.js";
 import {updateConversations} from "./conversations.js";
 import {reloadUserProfile} from "./profile.js";
 
-let chatID = '321';
+let chatID = '';
 
 const textArea = document.getElementById('textArea_message');
 const chatArea = document.getElementById('chatArea');
@@ -71,6 +71,9 @@ function post_message(message) {
 }
 
 function update_posts() {
+    if( !chatID )
+        return;
+
     fetch(messagesURL + '?' + new URLSearchParams({
         to: chatID
     }), {
@@ -263,12 +266,11 @@ function isImage(url) {
 
 function isImgUrl(url) {
     return fetch(url, {
-        method: 'HEAD',
+        method: 'GET',
         headers: {
-            'Content-Type': 'application/json',
             'userID': userID,
             'Authorization': 'Bearer ' + localStorage.getItem('Token')
-        }, cache: "force-cache"
+        }
     })
         .then(res => {
             return res.headers.get('Content-Type').startsWith('image');
