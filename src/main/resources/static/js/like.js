@@ -6,7 +6,7 @@ export function toogleLike(message_id) {
     fetch(likesURL + 'toggleLike/'+ message_id, {
         method: 'PUT',
         headers: {
-            'userID': userID,
+//            'userID': userID,
             'Authorization': 'Bearer ' +  localStorage.getItem('Token')
         }
     }).then(response => {
@@ -19,7 +19,7 @@ export function checkIfLiked(visual_element, message_id) {
     fetch(likesURL + 'amount/' + message_id, {
         method: 'GET',
         headers: {
-            'userID': userID,
+//            'userID': userID,
             'Authorization': 'Bearer ' +  localStorage.getItem('Token')
         }
     }).then(response =>

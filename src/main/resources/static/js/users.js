@@ -5,13 +5,13 @@ function getUserDetails(userId) {
 
     const defaultProfile = {
         name: "John Doe",
-        imageLink: "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+        imageLink: "img/placeholder.png"
     };
 
     return fetch(usersURL + '/' + userId, {
         method: 'GET',
         headers: {
-            'userID': userID,
+//            'userID': userID,
             'Authorization': 'Bearer ' +  localStorage.getItem('Token')
         }
     })
