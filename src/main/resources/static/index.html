@@ -55,14 +55,16 @@
             </div>
             <div class="modal-body">
                 <div>
-                    <button type="button" class="btn btn-warning" id="logout_button">Logout</button>
+                    <button type="button" class="me-5 p-3 btn btn-warning" id="logout_button">Logout</button>
                 </div>
-                <label>User name:
-                    <input type="text" id="userprofilename">
+                <label class="p-3">User name:
+                    <input class="form-control input-lg" type="text" id="userprofilename">
                 </label><br>
-                <label>Profile pic url:<input type="text" id="userprofileimage"></label>
+                <label class="p-3">Profile pic url:<input class="form-control input-lg" type="text"
+                                                          id="userprofileimage"></label>
             </div>
             <div>
+                <div>Choose an avatar by clicking on it:</div>
                 <img
                         src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
                         alt="avatar" class="d-flex align-self-center me-3 float-start"
@@ -88,7 +90,10 @@
                         alt="avatar" class="d-flex align-self-center me-3 float-start"
                         width="60" onclick="userprofileimage.value = this.src">
             </div>
-            <div class="modal-footer">
+            <div class="p-3"><a target="_blank" href="https://getavataaars.com/">Or generate your own and copy/paste the
+                img.src
+                url</a></div>
+            <div class="modal-footer p-3">
                 <button type="button" class="btn btn-secondary" id="closeprofile" data-mdb-dismiss="modal">Close
                 </button>
                 <button type="button" class="btn btn-primary" id="saveprofile">Save changes</button>
@@ -100,7 +105,7 @@
     <form>
         <div>
             <h2>Pick an image to upload</h2>
-            <input type='file' accept="image/jpeg,image/png" id="fileInput"/>
+            <input class="form-control input-lg" type='file' accept="image/jpeg,image/png" id="fileInput"/>
             <img id="preview" src="img/placeholder.png" alt="your image" style="max-width:180px;"/>
         </div>
         <div>
@@ -140,6 +145,16 @@
     </div>
     <p>
         <a href="/register">Create new account</a></p>
+</dialog>
+<dialog id="shortDialog">
+    <div>
+        <h2>Shorten url</h2>
+        <label for="longUrl">Long url:</label><input class="form-control input-lg" type='text' id="longUrl"/>
+    </div>
+    <div>
+        <button class="float-end" id="shortenButton" value="default" disabled="disabled">Shorten URL</button>
+        <button class="float-end" id="cancelShortDialog">Cancel</button>
+    </div>
 </dialog>
 <section style="background-color: #CDC4F9;">
 
@@ -388,11 +403,14 @@
                                               placeholder="Type message"></textarea>
                                     <!--                      <input type="text" class="form-control form-control-lg" id="exampleFormControlInput2"-->
                                     <!--                             placeholder="Type message">-->
-                                    <a id="showDialog" class="ms-1 text-muted" href="#!"><i
-                                            class="fas fa-paperclip"></i></a>
-                                    <!--                                    <a class="ms-3 text-muted" href="#!"><i class="fas fa-smile"></i></a>-->
-                                    <a class="ms-3 text-muted" id="emoji-button" href="#!"><i class="fas fa-smile"></i></a>
-                                    <a class="ms-3" id="send_message" href="#!"><i class="fas fa-paper-plane"></i></a>
+                                    <a id="showDialog" class="ms-3 text-muted" href="#!">
+                                        <i class="fas fa-paperclip fa-lg"></i></a>
+                                    <a id="showUrlDialog" class="ms-3 text-muted" href="#!">
+                                        <i class="fas fa-link fa-lg"></i></a>
+                                    <a class="ms-3 text-muted" id="emoji-button" href="#!">
+                                        <i class="fas fa-smile fa-lg"></i></a>
+                                    <a class="ms-3" id="send_message" href="#!">
+                                        <i class="fas fa-paper-plane fa-lg"></i></a>
                                 </div>
 
                             </div>
@@ -418,5 +436,7 @@
 <script type="module" src="js/emojis.js"></script>
 <script type="module" src="js/profile.js"></script>
 <script type="module" src="js/like.js"></script>
+<script type="module" src="js/urlshortener.js"></script>
+
 </body>
 </html>

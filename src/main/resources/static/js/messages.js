@@ -57,7 +57,7 @@ function post_message(message) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-        //    'userID': userID,
+            //    'userID': userID,
             'Authorization': 'Bearer ' + localStorage.getItem('Token')
         },
         body: JSON.stringify(body),
@@ -71,7 +71,7 @@ function post_message(message) {
 }
 
 function update_posts() {
-    if( !chatID )
+    if (!chatID)
         return;
 
     fetch(messagesURL + '?' + new URLSearchParams({
@@ -79,7 +79,7 @@ function update_posts() {
     }), {
         method: 'GET',
         headers: {
-        //    'userID': userID,
+            //    'userID': userID,
             'Authorization': 'Bearer ' + localStorage.getItem('Token')
         },
         cache: "no-store"
@@ -265,17 +265,21 @@ function isImage(url) {
 }
 
 function isImgUrl(url) {
-    return fetch(url, {
-        method: 'HEAD',
-        headers: {
-//            'userID': userID,
-            'Authorization': 'Bearer ' + localStorage.getItem('Token')
-        }
-    })
-        .then(res => {
-            return res.headers.get('Content-Type').startsWith('image');
+    if (isImage(url))
+        return true;
+
+    if (url.includes('/images/'))
+        return fetch(url, {
+            method: 'HEAD',
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('Token')
+            }
         })
-        .catch(reason => {
-            return false;
-        });
+            .then(res => {
+                return res.headers.get('Content-Type').startsWith('image');
+            })
+            .catch(reason => {
+                return false;
+            });
+    return false;
 }
