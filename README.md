@@ -25,3 +25,4 @@ https://github.com/chatgut/AuthService2
 
 ### Url-Shortener from frontend
 https://github.com/chatgut/micro-url-shortener-service
+https://github.com/chatgut/URLShortenerService
