@@ -8,6 +8,7 @@ myModal.addEventListener('show.bs.modal', function (event) {
     fetch(usersURL, {
         method: 'GET',
         headers: {
+            'userID': userID,
             'Authorization': 'Bearer ' +  localStorage.getItem('Token')
         }
     })
@@ -34,7 +35,7 @@ saveprofile.onclick = function () {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-//                'userID': userID,
+                'userID': userID,
                 'Authorization': 'Bearer ' +  localStorage.getItem('Token')
             },
             cache: "force-cache",
