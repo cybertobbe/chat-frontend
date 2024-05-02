@@ -1,10 +1,10 @@
 services:
   frontend:
-    image: ghcr.io/chatgut/frontend:latest
+    image: ghcr.io/chatgut/frontend:0.0.3
     ports:
       - 8080:8080
   authservice:
-    image: ghcr.io/chatgut/authservice2:nocors
+    image: ghcr.io/chatgut/authservice2:latest
     depends_on:
       - authservice-mysql
     container_name: authservice
