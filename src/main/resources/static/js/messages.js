@@ -57,7 +57,7 @@ function post_message(message) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            //    'userID': userID,
+            'userID': userID,
             'Authorization': 'Bearer ' + localStorage.getItem('Token')
         },
         body: JSON.stringify(body),
@@ -79,7 +79,7 @@ function update_posts() {
     }), {
         method: 'GET',
         headers: {
-            //    'userID': userID,
+            'userID': userID,
             'Authorization': 'Bearer ' + localStorage.getItem('Token')
         },
         cache: "no-store"

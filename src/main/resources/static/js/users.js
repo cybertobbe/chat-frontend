@@ -11,7 +11,7 @@ function getUserDetails(userId) {
     return fetch(usersURL + '/' + userId, {
         method: 'GET',
         headers: {
-//            'userID': userID,
+            'userID': userID,
             'Authorization': 'Bearer ' +  localStorage.getItem('Token')
         }
     })
