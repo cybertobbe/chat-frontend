@@ -29,17 +29,17 @@ services:
     ports:
       - "3307:3307"
   app:
-    image: ghcr.io/chatgut/micropostservice:main
-    container_name: postService
-    restart: on-failure
+    image: postservice2
+    container_name: postmessage
+    ports:
+      - "8090:8080"
     depends_on:
       - mongodb
-      - rabbitMQ
     environment:
-      ROCKET_DATABASES: '{postservice={url="mongodb://dbMongoDB:27017"}}'
-      ROCKET_RABBIT_HOST: "amqp://QueueRabbitMQ:5672"
-    ports:
-      - "8000:8000"
+      SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/mydatabase
+    restart: 'on-failure'
+    volumes:
+      - mongodb:/data/db
 
   mongodb:
     image: 'mongo:latest'
@@ -143,3 +143,4 @@ volumes:
   dbData:
   dbWR:
   db_mysql:
+  mongodb:
